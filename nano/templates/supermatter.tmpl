@@ -3,11 +3,28 @@
 		Available Targets on Frequency
 	</div>
 	<div class="statusDisplay">
-		{{for data.smlist}}
-			{{:value.type}}, as {{:value.id}} in {{:value.location}} 
-		{{/for}}
-		{{:helper.link('Return', 'arrowreturn-1-w', {'list' : 1}, null)}}
+	{{if data.smlist.length}}
+		<table>
+			<thead>
+				<th>Type</th>
+				<th>ID Tag</th>
+				<th>Location</th>
+			</thead>
+			<tbody>
+			{{for data.smlist}}
+				<tr>
+					<td>{{:value.type}}</td>
+					<td>{{:value.id}}</td>
+					<td>{{:value.location}}</td>
+				</tr>
+			{{/for}}
+			</tbody>
+		</table>
+	{{else}}
+		No signals received on this frequency.
+	{{/if}}
 	</div>
+	{{:helper.link('Return', 'arrowreturn-1-w', {'list' : 1}, null)}}
 {{else}}
 	{{if data.id}}
 		<div class="item">
@@ -15,7 +32,7 @@
 				Target Supermatter
 			</div>
 			<div class="itemContent">
-				{{:data.id}} <!-- {{:helper.link('List Available', 'search', {'list' : 1}, null)}} -->
+				{{:data.id}} {{:helper.link('List Available', 'search', {'list' : 1}, null)}}
 			</div>
 			<div class="itemLabel">
 				Target Location
@@ -24,7 +41,7 @@
 				{{:data.location}}
 			</div>
 		</div>
-		
+
 		<div style="width:100%;color:#e9c183">
 			Supermatter Core Readings
 		</div>
@@ -82,7 +99,7 @@
 				Target Supermatter:
 			</div>
 			<div class="itemContent">
-				Not Linked <!-- {{:helper.link('List Available', 'search', {'list' : 1}, null)}} -->
+				Not Linked {{:helper.link('List Available', 'search', {'list' : 1}, null)}}
 			</div>
 		</div>
 	{{/if}}

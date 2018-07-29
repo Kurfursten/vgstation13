@@ -539,12 +539,10 @@
 
 	if(screen)
 		cached_smlist = list()
-		var/i = 0
 		for(var/obj/machinery/power/supermatter/SM in radio_connection.devices[RADIO_SUPERMATTER])
 			var/area/sm_loc = get_area(SM)
 			if(sm_loc) //Otherwise it's nullspaced or something
-				cached_smlist[i] = list("type" =  SM.name, "id" = SM.id_tag, "location" = sm_loc.name) //Add doesn't work for this
-				i++
+				cached_smlist.Add(list(list("type" =  SM.name, "id" = SM.id_tag, "location" = sm_loc.name))) //Add doesn't work for this
 		data["smlist"] = cached_smlist
 	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
 
