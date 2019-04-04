@@ -133,6 +133,7 @@
 	var/panelopen = FALSE
 	var/obj/item/weapon/light/bulb/flashbulb = null
 	var/start_with_bulb = TRUE
+	var/allow_remote = FALSE
 
 /obj/item/device/camera/New(var/empty = FALSE)
 	..()
@@ -211,6 +212,11 @@
 		set_zoom()
 	else
 		return ..()
+
+/obj/item/device/camera/journalist
+	name = "journalist's camera"
+	desc = "A modified camera that can hook up to a camera console to take pictures of remote places."
+	allow_remote = TRUE
 
 /obj/item/device/camera/silicon
 	name = "silicon photo camera"
@@ -637,7 +643,7 @@
 			on = TRUE
 
 /obj/item/device/camera/remote_attack(atom/target, mob/user, atom/movable/eye)
-	if(istype(eye, /obj/machinery/camera))
+	if(istype(eye, /obj/machinery/camera) || allow_remote)
 		return afterattack(target, user) //Allow taking photos when looking through cameras
 
 /obj/item/device/camera/silicon/proc/toggle_camera_mode(var/mob/living/silicon/S = null)
