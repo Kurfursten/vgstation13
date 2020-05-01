@@ -413,6 +413,15 @@
 	icon_state = "clarke_r_tread"
 	origin_tech = Tc_PROGRAMMING + "=2;" + Tc_MATERIALS + "=2;" + Tc_ENGINEERING + "=2"
 
+///////// Junk
+
+/obj/item/mecha_parts/chassis/junk
+	name = "Junk Chassis"
+
+/obj/item/mecha_parts/chassis/junk/New()
+	..()
+	construct = new /datum/construction/mecha_chassis/junk(src)
+
 
 ///////// Circuitboards
 

@@ -1,8 +1,10 @@
 /datum/construction/mecha_chassis
+	var/add_overlay = TRUE
 
 /datum/construction/mecha_chassis/custom_action(step, atom/used_atom, mob/user)
 	user.visible_message("[user] has connected [used_atom] to [holder].", "You connect [used_atom] to [holder]")
-	holder.overlays += used_atom.icon_state+"+o"
+	if(add_overlay)
+		holder.overlays += used_atom.icon_state+"+o"
 	qdel (used_atom)
 	used_atom = null
 	return 1
@@ -191,6 +193,25 @@
 	const_holder.construct = new /datum/construction/reversible/mecha/clarke(const_holder)
 	const_holder.icon = 'icons/mecha/mech_construction.dmi'
 	const_holder.icon_state = "clarke0"
+	const_holder.setDensity(TRUE)
+	spawn()
+		qdel (src)
+	return
+
+////////////JUNK////////////////
+/datum/construction/mecha_chassis/junk
+	add_overlay = FALSE
+	steps = list(list(Co_KEY=/obj/item/mecha_parts/part/junk_appendage),
+					 list(Co_KEY=/obj/item/mecha_parts/part/junk_appendage),
+					 list(Co_KEY=/obj/item/mecha_parts/part/junk_appendage),
+					 list(Co_KEY=/obj/item/mecha_parts/part/junk_appendage),
+					 list(Co_KEY=/obj/item/mecha_parts/part/junk_core),
+					 list(Co_KEY=/obj/item/mecha_parts/part/honker_head)
+					)
+
+/datum/construction/mecha_chassis/junk/spawn_result(mob/user as mob)
+	var/obj/item/mecha_parts/chassis/const_holder = holder
+	const_holder.construct = new /datum/construction/reversible/mecha/junk(const_holder)
 	const_holder.setDensity(TRUE)
 	spawn()
 		qdel (src)

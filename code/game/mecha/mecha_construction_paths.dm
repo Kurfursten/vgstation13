@@ -698,3 +698,82 @@
 
 	mainboard = /obj/item/weapon/circuitboard/mecha/clarke/main
 	peripherals = /obj/item/weapon/circuitboard/mecha/clarke/peripherals
+
+/datum/construction/reversible/mecha/junk
+	result = "/obj/mecha/combat/junk"
+	base_icon = "junk"
+	mainboard = /obj/item/weapon/circuitboard/power_control
+	//no peripheral board
+	//no plasteel outer armor step
+
+	steps = list(
+					 //1
+					 list(Co_DESC="Armor is wrenched",
+					 	Co_NEXTSTEP = list(Co_KEY=/obj/item/weapon/weldingtool,
+					 		Co_AMOUNT = 3,
+					 		Co_VIS_MSG = "{USER} weld{s} internal armor layer to {HOLDER}."),
+					 	Co_BACKSTEP = list(Co_KEY=/obj/item/weapon/wrench,
+					 		Co_VIS_MSG = "{USER} unfastens the internal armor layer.")
+					 	),
+					 //2
+					 list(Co_DESC="Armor is installed",
+					 	Co_NEXTSTEP = list(Co_KEY=/obj/item/weapon/wrench,
+					 		Co_VIS_MSG = "{USER} secure{s} internal armor layer."),
+					 	Co_BACKSTEP = list(Co_KEY=/obj/item/weapon/crowbar,
+					 		Co_VIS_MSG = "{USER} prie{s} internal armor layer from {HOLDER}.")
+					 	),
+					 //3
+					 list(Co_DESC="Control module is secured",
+					 	Co_NEXTSTEP = list(Co_KEY= null, //set by a proc
+					 		Co_AMOUNT = 1,
+					 		Co_VIS_MSG = "{USER} install{s} the peripherals control module into {HOLDER}."),
+					 	Co_BACKSTEP = list(Co_KEY=/obj/item/weapon/screwdriver,
+					 		Co_VIS_MSG = "{USER} unfasten{s} the mainboard.")
+					 	),
+					 //4
+					 list(Co_DESC="Control module is installed",
+					 	Co_NEXTSTEP = list(Co_KEY=/obj/item/weapon/screwdriver,
+					 		Co_VIS_MSG = "{USER} secure{s} the mainboard."),
+					 	Co_BACKSTEP = list(Co_KEY=/obj/item/weapon/crowbar,
+					 		Co_VIS_MSG = "{USER} remove{s} the central control module from {HOLDER}.")
+					 	),
+					 //5
+					 list(Co_DESC="The wiring is adjusted",
+						Co_NEXTSTEP = list(Co_KEY= null, //set by a proc
+					 		Co_AMOUNT = 1,
+					 		Co_VIS_MSG = "{USER} install{s} the central control module into {HOLDER}."),
+					 	Co_BACKSTEP = list(Co_KEY=/obj/item/weapon/screwdriver,
+					 		Co_VIS_MSG = "{USER} disconnect{s} the wiring of {HOLDER}.")
+					 	),
+					 //6
+					 list(Co_DESC="The wiring is added",
+					 	Co_NEXTSTEP = list(Co_KEY=/obj/item/weapon/wirecutters,
+					 		Co_VIS_MSG = "{USER} adjust{s} the wiring of {HOLDER}."),
+					 	Co_BACKSTEP = list(Co_KEY=/obj/item/weapon/screwdriver,
+					 		Co_VIS_MSG = "{USER} remove{s} the wiring of {HOLDER}.")
+					 	),
+					 //7
+					 list(Co_DESC="The hydraulic systems are active.",
+					 	Co_NEXTSTEP = list(Co_KEY=/obj/item/stack/cable_coil,
+					 		Co_AMOUNT = 10,
+					 		Co_VIS_MSG = "{USER} add{s} the wiring to {HOLDER}."),
+					 	Co_BACKSTEP = list(Co_KEY=/obj/item/weapon/screwdriver,
+					 		Co_VIS_MSG = "{USER} deactivate{s} {HOLDER} hydraulic systems.")
+					 	),
+					 //8
+					 list(Co_DESC="The hydraulic systems are connected.",
+					 	Co_NEXTSTEP = list(Co_KEY=/obj/item/weapon/screwdriver,
+					 		Co_VIS_MSG = "{USER} activate{s} {HOLDER} hydraulic systems."),
+					 	Co_BACKSTEP = list(Co_KEY=/obj/item/weapon/wrench,
+					 		Co_VIS_MSG = "{USER} disconnect{s} {HOLDER} hydraulic systems.")
+					 	),
+					 //9
+					 list(Co_DESC="The hydraulic systems are disconnected.",
+					 	Co_NEXTSTEP = list(Co_KEY=/obj/item/weapon/wrench,
+					 		Co_VIS_MSG = "{USER} connect{s} {HOLDER} hydraulic systems.")
+					 	)
+					)
+
+/datum/construction/reversible/mecha/junk/add_board_keys()
+	var/list/board_step = get_forward_step(steps.len - MAINBOARD) //this is still correct, 9-4=5
+	board_step[Co_KEY] = mainboard
