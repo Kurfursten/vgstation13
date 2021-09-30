@@ -10,8 +10,6 @@
 	var/number = 0
 	var/netexcess = 0			// excess power on the powernet (typically avail-load)
 	var/unmet_demand = 0		// amount load would incraese if avail was arbitrarily large
-	var/debug_charging = 0
-	var/list/demanders = list()
 
 ////////////////////////////////////////////
 // POWERNET DATUM PROCS
@@ -115,15 +113,11 @@
 	viewload = 0.8 * viewload + 0.2 * load
 	viewload = round(viewload)
 
-	if(debug_charging)
-		message_admins("Last loop we had [unmet_demand] from [english_list(demanders)].")
-
 	// reset the powernet
 	load = 0
 	avail = newavail
 	newavail = 0
 	unmet_demand = 0
-	demanders = list()
 
 /datum/powernet/proc/get_electrocute_damage()
 	// cube root of power times 1,5 to 2 in increments of 10^-1
